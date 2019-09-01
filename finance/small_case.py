@@ -44,17 +44,24 @@ class ZerodhaLogin(object):
          loginButton = self.getCssElement( "button[type=submit]" )
          loginButton.click()
          time.sleep(10)
-         s_passwordField = self.getCssElement( "input[placeholder='PIN']").send_keys( self.s_password )
+         # To do: Bug fix
+         # s_passwordField = self.getCssElement( "input[placeholder='PIN']").send_keys( self.s_password )
          #s_passwordField.send_keys( self.s_password )
          ContinueButton = self.getCssElement( "button[type=submit]" )
          ContinueButton.click()
+         self.driver.get('https://smallcase.zerodha.com/discover/all?count=51')
+         time.sleep(1)
+         self.driver.get('https://smallcase.zerodha.com/smallcase/SCET_0010')
          content = self.driver.page_source
          soup = BeautifulSoup(content)
-         print (soup)
-         for a in soup.findAll(attrs={'class':'DiscoverCard__sc-card___2YtVy'}):
-            # Get all smallCase ID
-            self.small_cases_id.append(a['id'])
-            print(self.small_cases_id)
+         print(soup)
+         print('Done')
+         # for a in soup.findAll(attrs={'class':'DiscoverCard__sc-card___2YtVy'}):
+         #    # Get all smallCase ID
+         #    self.small_cases_id.append(a['id'])
+         #    print("ID name:")
+         #   print(self.small_cases_id)
+         #print(self.small_cases_id)
       except TimeoutException:
          # Try thrice and return
          print( "Timeout occurred" )
@@ -75,7 +82,13 @@ class ZerodhaLogin(object):
          content = driver.page_source
          soup = BeautifulSoup(content)
          print(soup)
-         
+
+class SmallCaseList(object):
+   def __init__( self ):
+      self.timeout = 5
+      self.loadCredentials()
+      self.driver = webdriver.Chrome()
+
 if __name__ == "__main__":
    obj = ZerodhaLogin()
    obj.doLogin()
